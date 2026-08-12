@@ -1,0 +1,7 @@
+# swap/backup
+*.swp
+*.swo
+*.swn
+
+# logs
+nvim.log
