@@ -1,5 +1,5 @@
 return {
-  install = { colorscheme = {} },
+  install = { colorscheme = { "one-dark-pro-max" } },
   checker = { enabled = false },
   performance = {
     rtp = {

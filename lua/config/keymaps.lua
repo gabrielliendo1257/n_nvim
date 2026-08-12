@@ -19,3 +19,5 @@ map("n", "<C-d>", "<C-d>zz", { desc = "Scroll down and center" })
 map("n", "<C-u>", "<C-u>zz", { desc = "Scroll up and center" })
 
 map("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear search highlight" })
+
+map("n", "<leader>th", function() require("config.theme").select() end, { desc = "Switch theme" })
