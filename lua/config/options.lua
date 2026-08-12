@@ -17,6 +17,8 @@ opt.scrolloff = 8
 opt.termguicolors = true
 opt.undofile = true
 
+opt.laststatus = 3
+
 opt.splitright = true
 opt.splitbelow = true
 
