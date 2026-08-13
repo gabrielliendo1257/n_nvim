@@ -12,7 +12,7 @@ return {
     },
     event = "VeryLazy",
     opts = {
-      ensure_installed = { "basedpyright", "ruff" },
+      ensure_installed = { "basedpyright", "ruff", "rust-analyzer" },
       automatic_enable = true,
     },
   },
