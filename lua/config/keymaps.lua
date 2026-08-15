@@ -23,6 +23,15 @@ map("n", "<C-j>", "<C-w>j", { desc = "Window down" })
 map("n", "<C-k>", "<C-w>k", { desc = "Window up" })
 map("n", "<C-l>", "<C-w>l", { desc = "Window right" })
 
+map("n", "<C-Up>", "<cmd>resize +3<CR>", { desc = "Resize height up" })
+map("n", "<C-Down>", "<cmd>resize -3<CR>", { desc = "Resize height down" })
+map("n", "<C-Left>", "<cmd>vertical resize -3<CR>", { desc = "Resize width left" })
+map("n", "<C-Right>", "<cmd>vertical resize +3<CR>", { desc = "Resize width right" })
+
+map("n", "<leader>sv", "<cmd>vsplit<CR>", { desc = "Split vertical" })
+map("n", "<leader>sh", "<cmd>split<CR>", { desc = "Split horizontal" })
+map("n", "<leader>sc", "<cmd>close<CR>", { desc = "Close window" })
+
 map("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear search highlight" })
 
 map("n", "<leader>th", function() require("config.theme").select() end, { desc = "Switch theme" })
