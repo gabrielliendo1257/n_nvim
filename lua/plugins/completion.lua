@@ -3,14 +3,28 @@ return {
   version = "1.*",
   event = "InsertEnter",
   dependencies = { "rafamadriz/friendly-snippets" },
-  opts = {
-    keymap = {
-      preset = "enter"
-    },
-    appearance = {
-      nerd_font_variant = "mono",
-    },
-    sources = {
+  opts = function()
+    return {
+      keymap = {
+        preset = "enter"
+      },
+      appearance = {
+        nerd_font_variant = "mono",
+        kind_icons = (function()
+          local kinds = {
+            "Text", "Method", "Function", "Constructor", "Field", "Variable",
+            "Class", "Interface", "Module", "Property", "Unit", "Value", "Enum",
+            "Keyword", "Snippet", "Color", "File", "Reference", "Folder",
+            "EnumMember", "Constant", "Struct", "Event", "Operator", "TypeParameter",
+          }
+          local res = {}
+          for _, kind in ipairs(kinds) do
+            res[kind] = require("mini.icons").get("lsp", kind)
+          end
+          return res
+        end)(),
+      },
+      sources = {
       default = { "lsp", "path", "snippets", "buffer" },
       providers = {
         lsp = {
@@ -53,7 +67,8 @@ return {
         selection = { preselect = false, auto_insert = false },
       },
     },
-  },
+    }
+  end,
   -- config = function(_, opts)
   --   require("blink.cmp").setup(opts)
   --
