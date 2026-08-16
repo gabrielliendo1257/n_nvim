@@ -3,7 +3,7 @@ return {
     "akinsho/toggleterm.nvim",
     version = "*",
     keys = {
-      { "<leader>t", "<cmd>ToggleTerm<CR>", desc = "Toggle terminal" },
+      { "<leader>th", "<cmd>ToggleTerm<CR>", desc = "Terminal horizontal" },
       { "<leader>tf", "<cmd>ToggleTerm direction=float<CR>", desc = "Terminal flotante" },
       { "<leader>tl", "<cmd>lua _G._lazygit_toggle()<CR>", desc = "Lazygit (flotante)" },
     },

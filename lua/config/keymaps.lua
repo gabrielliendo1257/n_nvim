@@ -34,6 +34,6 @@ map("n", "<leader>sc", "<cmd>close<CR>", { desc = "Close window" })
 
 map("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear search highlight" })
 
-map("n", "<leader>th", function() require("config.theme").select() end, { desc = "Switch theme" })
+map("n", "<leader>tc", function() require("config.theme").select() end, { desc = "Switch theme" })
 
 require("config.lsp").setup()
