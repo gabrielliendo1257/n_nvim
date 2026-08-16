@@ -2,16 +2,20 @@ local function listed_bufs()
   return vim.fn.getbufinfo({ buflisted = 1 })
 end
 
-local function close_current()
-  local current = vim.api.nvim_get_current_buf()
+local function switch_away(current)
   local alt = vim.fn.bufnr("#")
   local switched = false
   if alt > 0 and alt ~= current and vim.fn.buflisted(alt) then
     switched = pcall(vim.cmd, "buffer " .. alt)
   end
   if not switched then
-    vim.cmd("enew")
+    pcall(vim.cmd, "enew")
   end
+end
+
+local function close_current()
+  local current = vim.api.nvim_get_current_buf()
+  switch_away(current)
   pcall(vim.cmd, "bdelete " .. current)
 end
 
@@ -22,7 +26,7 @@ local function close_all()
       pcall(vim.cmd, "bdelete " .. b.bufnr)
     end
   end
-  vim.cmd("enew")
+  switch_away(current)
   pcall(vim.cmd, "bdelete " .. current)
 end
 
