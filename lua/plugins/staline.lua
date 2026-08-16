@@ -5,66 +5,123 @@ return {
     opts = {
       defaults = {
         true_colors = true,
-        font_active = "bold",
-        line_column = "[%l/%L] :%c %p%% ",
+        fg = "#986fec",
+        left_separator = "",
+        right_separator = "",
+        line_column = "[%l:%c] 並%p%% ",
       },
       mode_colors = {
-        n = "#2bbb4f",
-        i = "#986fec",
-        c = "#e27d60",
-        v = "#4799eb",
-        R = "#e27d60",
-        t = "#4799eb",
-      },
-      sections = {
-        left = { "- ", "-mode", "left_sep_double", " ", "branch", " ", "file_name" },
-        mid = { "lsp", " ", "lsp_name" },
-        right = { "right_sep_double", "-line_column" },
+        n = "#181a23",
+        i = "#181a23",
+        ic = "#181a23",
+        c = "#181a23",
+        v = "#181a23",
+        R = "#181a23",
+        t = "#181a23",
       },
       lsp_symbols = {
-        Error = " E ",
-        Info = " I ",
-        Warn = " W ",
-        Hint = " H ",
+        Error = "  ",
+        Info = "  ",
+        Warn = "  ",
+        Hint = " 󰛨 ",
       },
     },
-    -- config = function(_, opts)
-    --   require("staline").setup(opts)
-    --   vim.opt.statusline = "%!v:lua.require('staline').staline()"
-    -- end,
-    config = {
+    config = function(_, opts)
+      local rs = opts.defaults.right_separator
+      local ls = opts.defaults.left_separator
 
-	sections = {
-		left = {
-			' ', 'right_sep_double', '-mode', 'left_sep_double', ' ',
-			'right_sep', '-file_name', 'left_sep', ' ',
-			'right_sep_double', '-branch', 'left_sep_double', ' ',
-		},
-		mid  = {'lsp'},
-		right= {
-			'right_sep', '-cool_symbol', 'left_sep', ' ',
-			'right_sep', '- ', '-lsp_name', '- ', 'left_sep',
-			'right_sep_double', '-line_column', 'left_sep_double', ' ',
-		}
-	},
+      local function pill(inner)
+        if inner == "" then
+          return ""
+        end
+        return "%#MidSep#" .. rs .. "%#DoubleSep#" .. rs
+          .. "%#StalineFill# " .. inner .. " "
+          .. "%#DoubleSep#" .. ls .. "%#MidSep#" .. ls
+      end
 
-	defaults={
-		fg = "#986fec",
-		cool_symbol = "  ",
-		left_separator = "",
-		right_separator = "",
-		-- line_column = "%l:%c [%L]",
-		true_colors = true,
-		line_column = "[%l:%c] 並%p%% "
-		-- font_active = "bold"
-	},
-	mode_colors = {
-		n  = "#181a23",
-		i  = "#181a23",
-		ic = "#181a23",
-		c  = "#181a23",
-		v  = "#181a23"       -- etc
-	}
-}
+      local os_icon = vim.g.staline_os_icon
+      if not os_icon then
+        local icons = {
+          arch = "", ubuntu = "", debian = "", fedora = "",
+          manjaro = "", nixos = "", darwin = "󰀵", windows = "󰪥",
+        }
+        local id
+        local sys = vim.loop.os_uname().sysname
+        if sys == "Darwin" then
+          id = "darwin"
+        elseif sys == "Windows_NT" then
+          id = "windows"
+        else
+          local f = io.open("/etc/os-release")
+          if f then
+            for line in f:lines() do
+              local v = line:match("^ID=(.+)$")
+              if v then
+                id = v:lower():gsub('"', "")
+                break
+              end
+            end
+            f:close()
+          end
+        end
+        os_icon = icons[id] or ""
+        vim.g.staline_os_icon = os_icon
+      end
+
+      local function cwd_section()
+        return pill(vim.fn.fnamemodify(vim.fn.getcwd(), ":t"))
+      end
+
+      local function branch_section()
+        return pill(vim.b.staline_branch or "")
+      end
+
+      local function venv_section()
+        local venv = vim.env.VIRTUAL_ENV
+        if not venv or venv == "" then
+          return ""
+        end
+        return pill("󰌠 " .. vim.fn.fnamemodify(venv, ":t"))
+      end
+
+      local function lsp_section()
+        local parts = {}
+        local symbols = { Error = "  ", Warn = "  ", Info = "  ", Hint = " 󰛨 " }
+        for sev, sym in pairs(symbols) do
+          local n = #vim.diagnostic.get(0, { severity = sev })
+          if n > 0 then
+            parts[#parts + 1] = "%#DiagnosticSign" .. sev .. "#" .. sym .. n
+          end
+        end
+        local clients = {}
+        for _, client in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
+          clients[#clients + 1] = client.name
+        end
+        if #clients > 0 then
+          parts[#parts + 1] = table.concat(clients, ", ")
+        end
+        return pill(table.concat(parts, " "))
+      end
+
+      local function os_section()
+        return pill(os_icon)
+      end
+
+      opts.sections = {
+        left = {
+          " ", "right_sep_double", "-mode", "left_sep_double",
+          cwd_section, branch_section,
+        },
+        mid = { lsp_section },
+        right = {
+          venv_section,
+          "right_sep_double", "-file_name", "left_sep_double",
+          os_section,
+          "right_sep_double", "-line_column", "left_sep_double",
+        },
+      }
+
+      require("staline").setup(opts)
+    end,
   },
 }
