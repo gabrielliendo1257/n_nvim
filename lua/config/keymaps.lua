@@ -31,9 +31,6 @@ map("n", "<C-Right>", "<cmd>vertical resize +3<CR>", { desc = "Resize width righ
 map("n", "<leader>sv", "<cmd>vsplit<CR>", { desc = "Split vertical" })
 map("n", "<leader>sh", "<cmd>split<CR>", { desc = "Split horizontal" })
 map("n", "<leader>sc", "<cmd>close<CR>", { desc = "Close window" })
-map("n", "<C-x>", "<cmd>close<CR>", { desc = "Close window" })
-map("n", "<leader>so", "<cmd>only<CR>", { desc = "Close other windows" })
-map("n", "<leader>qa", "<cmd>qa<CR>", { desc = "Quit all windows" })
 
 map("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear search highlight" })
 
