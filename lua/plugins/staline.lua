@@ -5,6 +5,7 @@ return {
     opts = {
       defaults = {
         true_colors = true,
+        font_active = "bold",
         fg = "#986fec",
         left_separator = "",
         right_separator = "",
@@ -76,6 +77,47 @@ return {
         return pill(vim.b.staline_branch or "")
       end
 
+      local function git_diff_section()
+        return pill(vim.b.gitsigns_status or "")
+      end
+
+      local function size_section()
+        local name = vim.api.nvim_buf_get_name(0)
+        if name == "" then
+          return ""
+        end
+        local size = vim.fn.getfsize(name)
+        if size < 0 then
+          return ""
+        end
+        local unit = "B"
+        if size >= 1024 * 1024 then
+          size, unit = size / 1024 / 1024, "M"
+        elseif size >= 1024 then
+          size, unit = size / 1024, "K"
+        end
+        return pill(("%.1f"):format(size) .. unit)
+      end
+
+      local function type_section()
+        local ft = vim.bo.filetype
+        if ft == "" then
+          return ""
+        end
+        local enc = vim.bo.fileencoding
+        if enc == "" then
+          enc = vim.o.encoding
+        end
+        if enc ~= "utf-8" then
+          ft = ft .. " " .. enc
+        end
+        return pill(ft)
+      end
+
+      local function time_section()
+        return pill("%{strftime('%H:%M')}")
+      end
+
       local function venv_section()
         local venv = vim.env.VIRTUAL_ENV
         if not venv or venv == "" then
@@ -110,13 +152,14 @@ return {
       opts.sections = {
         left = {
           " ", "right_sep_double", "-mode", "left_sep_double",
-          cwd_section, branch_section,
+          cwd_section, branch_section, git_diff_section,
         },
         mid = { lsp_section },
         right = {
           venv_section,
           "right_sep_double", "-file_name", "left_sep_double",
-          os_section,
+          size_section, type_section,
+          os_section, time_section,
           "right_sep_double", "-line_column", "left_sep_double",
         },
       }

@@ -10,6 +10,7 @@ return {
       "nvim-telescope/telescope-ui-select.nvim",
     },
     cmd = "Telescope",
+    event = "VeryLazy",
     keys = {
       { "<leader>ff", "<cmd>Telescope find_files<CR>", desc = "Find files" },
       { "<leader>fg", "<cmd>Telescope live_grep<CR>", desc = "Live grep" },
@@ -17,6 +18,7 @@ return {
       { "<leader>fr", "<cmd>Telescope oldfiles<CR>", desc = "Recent files" },
       { "<leader>fh", "<cmd>Telescope help_tags<CR>", desc = "Help tags" },
       { "<leader>fk", "<cmd>Telescope keymaps<CR>", desc = "Keymaps" },
+      { "<leader>cr", "<cmd>Telescope lsp_references<CR>", desc = "References" },
     },
     opts = function()
       return {
