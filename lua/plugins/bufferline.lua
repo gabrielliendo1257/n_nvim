@@ -4,7 +4,12 @@ end
 
 local function close_current()
   local current = vim.api.nvim_get_current_buf()
-  if #listed_bufs() <= 1 then
+  local alt = vim.fn.bufnr("#")
+  local switched = false
+  if alt > 0 and alt ~= current and vim.fn.buflisted(alt) then
+    switched = pcall(vim.cmd, "buffer " .. alt)
+  end
+  if not switched then
     vim.cmd("enew")
   end
   pcall(vim.cmd, "bdelete " .. current)
