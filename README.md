@@ -35,6 +35,7 @@ lazy-lock.json            versiones fijadas de plugins
 | `<leader>co` | Java: organizar imports |
 | `<leader>ca/cd/cx` | LSP: code action / diagnostics / references |
 | `<leader>db/dc/do/di` | DAP: breakpoint / continue / step over / inspect |
+| `<leader>tr/tR/ts/to/tx` | Neotest: run test / run file / stop / output / summary |
 | `s/S` | Flash: buscar con preview |
 | `ys/ds/cs` | Surround (mini.surround) |
 | `]h/[h` | Gitsigns: siguiente/anterior hunk |
@@ -78,6 +79,16 @@ curl -sL -o ~/.local/share/java/lombok.jar https://projectlombok.org/downloads/l
 ```
 
 La config de `java.lua` añade `-javaagent:<lombok.jar>` a los `--jvm-arg` de jdtls automáticamente si el jar existe.
+
+### JUnit Platform Console (tests Java con neotest-java)
+
+Primera vez (descarga el jar con verificación SHA-256 a `~/.local/share/nvim/neotest-java/`):
+
+```vim
+:NeotestJava setup
+```
+
+Requisitos: jdtls activo en el proyecto (lo carga `java.lua` al abrir un `.java`). Soporta Maven/Gradle, JUnit 5 y Spring.
 
 ### lazygit
 
