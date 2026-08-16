@@ -3,10 +3,14 @@ local function listed_bufs()
 end
 
 local function switch_away(current)
-  local alt = vim.fn.bufnr("#")
   local switched = false
-  if alt > 0 and alt ~= current and vim.fn.buflisted(alt) then
-    switched = pcall(vim.cmd, "buffer " .. alt)
+  for _, b in ipairs(listed_bufs()) do
+    if b.bufnr ~= current then
+      switched = pcall(vim.cmd, "buffer " .. b.bufnr)
+      if switched then
+        break
+      end
+    end
   end
   if not switched then
     pcall(vim.cmd, "enew")

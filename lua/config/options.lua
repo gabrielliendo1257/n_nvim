@@ -1,4 +1,5 @@
 local opt = vim.opt
+local o = vim.o
 
 opt.number = true
 opt.relativenumber = true
@@ -29,3 +30,5 @@ opt.smartcase = true
 opt.hlsearch = true
 opt.mouse = "a"
 opt.clipboard = "unnamedplus"
+
+o.termguicolors = true
