@@ -1,3 +1,26 @@
+local function listed_bufs()
+  return vim.fn.getbufinfo({ buflisted = 1 })
+end
+
+local function close_current()
+  local current = vim.api.nvim_get_current_buf()
+  if #listed_bufs() <= 1 then
+    vim.cmd("enew")
+  end
+  pcall(vim.api.nvim_buf_delete, current, { force = false })
+end
+
+local function close_all()
+  local current = vim.api.nvim_get_current_buf()
+  for _, b in ipairs(listed_bufs()) do
+    if b.bufnr ~= current then
+      pcall(vim.api.nvim_buf_delete, b.bufnr, { force = false })
+    end
+  end
+  vim.cmd("enew")
+  pcall(vim.api.nvim_buf_delete, current, { force = false })
+end
+
 return {
   {
     "akinsho/bufferline.nvim",
@@ -24,9 +47,9 @@ return {
       { "<S-Tab>", "<cmd>BufferLineCyclePrev<CR>", desc = "Previous buffer" },
       { "]b", "<cmd>BufferLineCycleNext<CR>", desc = "Next buffer" },
       { "[b", "<cmd>BufferLineCyclePrev<CR>", desc = "Previous buffer" },
-      { "<leader>x", "<cmd>bdelete<CR>", desc = "Close current buffer" },
+      { "<leader>x", close_current, desc = "Close current buffer" },
       { "<leader>bo", "<cmd>BufferLineCloseOthers<CR>", desc = "Close other buffers" },
-      { "<leader>ba", "<cmd>bufdo bdelete<CR>", desc = "Close all buffers" },
+      { "<leader>ba", close_all, desc = "Close all buffers" },
       { "<leader>bc", "<cmd>BufferLinePickClose<CR>", desc = "Pick buffer to close" },
     },
   },
