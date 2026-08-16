@@ -7,18 +7,18 @@ local function close_current()
   if #listed_bufs() <= 1 then
     vim.cmd("enew")
   end
-  pcall(vim.api.nvim_buf_delete, current, { force = false })
+  pcall(vim.cmd, "bdelete " .. current)
 end
 
 local function close_all()
   local current = vim.api.nvim_get_current_buf()
   for _, b in ipairs(listed_bufs()) do
     if b.bufnr ~= current then
-      pcall(vim.api.nvim_buf_delete, b.bufnr, { force = false })
+      pcall(vim.cmd, "bdelete " .. b.bufnr)
     end
   end
   vim.cmd("enew")
-  pcall(vim.api.nvim_buf_delete, current, { force = false })
+  pcall(vim.cmd, "bdelete " .. current)
 end
 
 return {
