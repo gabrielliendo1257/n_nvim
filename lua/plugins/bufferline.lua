@@ -20,6 +20,8 @@ return {
       },
     },
     keys = {
+      { "<Tab>", "<cmd>BufferLineCycleNext<CR>", desc = "Next buffer" },
+      { "<S-Tab>", "<cmd>BufferLineCyclePrev<CR>", desc = "Previous buffer" },
       { "]b", "<cmd>BufferLineCycleNext<CR>", desc = "Next buffer" },
       { "[b", "<cmd>BufferLineCyclePrev<CR>", desc = "Previous buffer" },
       { "<leader>bc", "<cmd>BufferLinePickClose<CR>", desc = "Pick buffer to close" },

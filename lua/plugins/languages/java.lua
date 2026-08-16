@@ -1,7 +1,12 @@
 return {
   {
     "neovim/nvim-lspconfig",
-    config = function()
+    opts = function()
+      local lombok = vim.fn.expand("~/.local/share/java/lombok.jar")
+      if vim.fn.filereadable(lombok) == 1 then
+        vim.env.JDTLS_JVM_ARGS = (vim.env.JDTLS_JVM_ARGS or "") .. " -javaagent:" .. lombok
+      end
+
       vim.lsp.config("jdtls", {
         on_attach = function(client)
           client.server_capabilities.documentFormattingProvider = false

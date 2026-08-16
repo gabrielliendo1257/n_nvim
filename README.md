@@ -70,6 +70,15 @@ exec java -jar "$HOME/.local/share/google-java-format/google-java-format-1.36.1-
 
 `chmod +x ~/.local/bin/google-java-format`. Requiere Java (verificado con OpenJDK 21).
 
+### lombok (soporte Lombok en jdtls)
+
+```sh
+mkdir -p ~/.local/share/java
+curl -sL -o ~/.local/share/java/lombok.jar https://projectlombok.org/downloads/lombok.jar
+```
+
+La config de `java.lua` añade `-javaagent:<lombok.jar>` a los `--jvm-arg` de jdtls automáticamente si el jar existe.
+
 ### lazygit
 
 ```sh

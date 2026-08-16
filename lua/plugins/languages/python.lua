@@ -1,7 +1,7 @@
 return {
   {
     "neovim/nvim-lspconfig",
-    config = function()
+    opts = function()
       vim.lsp.config("basedpyright", {
         settings = {
           basedpyright = {
