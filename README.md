@@ -36,6 +36,8 @@ lazy-lock.json            versiones fijadas de plugins
 | `<leader>ca/cd/cx` | LSP: code action / diagnostics / references |
 | `<leader>db/dc/do/di` | DAP: breakpoint / continue / step over / inspect |
 | `<leader>tr/tR/ts/to/tx` | Neotest: run test / run file / stop / output / summary |
+| `<leader>fp` | Telescope: proyectos guardados |
+| `<leader>qs/ql/qd` | Persistence: restaurar sesion / ultima / no guardar |
 | `s/S` | Flash: buscar con preview |
 | `ys/ds/cs` | Surround (mini.surround) |
 | `]h/[h` | Gitsigns: siguiente/anterior hunk |

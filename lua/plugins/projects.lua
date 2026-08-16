@@ -1,0 +1,25 @@
+return {
+  {
+    "nvim-telescope/telescope-project.nvim",
+    dependencies = { "nvim-telescope/telescope.nvim" },
+    event = "VeryLazy",
+    keys = {
+      { "<leader>fp", "<cmd>Telescope project<CR>", desc = "Projects" },
+    },
+    config = function()
+      require("telescope").load_extension("project")
+    end,
+  },
+  {
+    "folke/persistence.nvim",
+    event = "BufReadPre",
+    opts = {
+      options = { "buffers", "curdir", "tabpages", "winsize", "help" },
+    },
+    keys = {
+      { "<leader>qs", function() require("persistence").load() end, desc = "Restore session" },
+      { "<leader>ql", function() require("persistence").load({ last = true }) end, desc = "Restore last session" },
+      { "<leader>qd", function() require("persistence").stop() end, desc = "Don't save current session" },
+    },
+  },
+}
