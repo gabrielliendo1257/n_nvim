@@ -36,6 +36,7 @@ lazy-lock.json            versiones fijadas de plugins
 | `<leader>ca/cd/cx` | LSP: code action / diagnostics / references |
 | `<leader>db/dc/do/di` | DAP: breakpoint / continue / step over / inspect |
 | `<leader>tr/tR/ts/to/tx` | Neotest: run test / run file / stop / output / summary |
+| `<leader>sr/sx` | Spring Boot: iniciar / detener el servicio del proyecto |
 | `s/S` | Flash: buscar con preview |
 | `ys/ds/cs` | Surround (mini.surround) |
 | `]h/[h` | Gitsigns: siguiente/anterior hunk |
@@ -47,6 +48,7 @@ lazy-lock.json            versiones fijadas de plugins
 | Python | basedpyright + ruff |
 | Rust | rust-analyzer |
 | Java | jdtls |
+| Spring Boot | Spring Boot Language Server + jdtls |
 | JavaScript / TypeScript | biome |
 | Angular | angular-language-server (requiere `node_modules` del proyecto) |
 
@@ -79,6 +81,18 @@ curl -sL -o ~/.local/share/java/lombok.jar https://projectlombok.org/downloads/l
 ```
 
 La config de `java.lua` añade `-javaagent:<lombok.jar>` a los `--jvm-arg` de jdtls automáticamente si el jar existe.
+
+### Spring Boot Language Server
+
+Instalar una vez desde Mason:
+
+```vim
+:MasonInstall vscode-spring-boot-tools
+```
+
+Al abrir Java, `application.yml` o `application.properties`, se activa el soporte de Spring Boot: completado y navegacion de propiedades, beans, endpoints y code actions. Requiere Java 21+.
+
+`<leader>sr` ejecuta `./mvnw spring-boot:run` o `./gradlew bootRun` segun el proyecto; `<leader>sx` lo detiene. Tambien estan disponibles `:SpringBootRun` y `:SpringBootStop`.
 
 ### JUnit Platform Console (tests Java con neotest-java)
 

@@ -5,8 +5,21 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     config = function()
       require("nvim-treesitter").setup()
-      local wanted = { "lua", "vim", "vimdoc", "bash", "python", "rust", "javascript", "css", "html", "json" }
-      local installed = require("nvim-treesitter").get_installed("parsers")
+      local wanted = {
+        "lua",
+        "vim",
+        "vimdoc",
+        "bash",
+        "python",
+        "rust",
+        "java",
+        "yaml",
+        "javascript",
+        "css",
+        "html",
+        "json",
+      }
+      local installed = require("nvim-treesitter").get_installed "parsers"
       local missing = vim.tbl_filter(function(p)
         return not vim.list_contains(installed, p)
       end, wanted)
