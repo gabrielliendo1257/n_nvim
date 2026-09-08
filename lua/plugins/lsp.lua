@@ -13,7 +13,7 @@ return {
     event = "VeryLazy",
     opts = {
       ensure_installed = { "basedpyright", "ruff", "rust-analyzer", "debugpy", "biome", "jdtls", "angular-language-server" },
-      automatic_enable = true,
+      automatic_enable = { exclude = { "jdtls" } },
     },
   },
   {

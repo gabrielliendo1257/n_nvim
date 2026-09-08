@@ -75,12 +75,7 @@ exec java -jar "$HOME/.local/share/google-java-format/google-java-format-1.36.1-
 
 ### lombok (soporte Lombok en jdtls)
 
-```sh
-mkdir -p ~/.local/share/java
-curl -sL -o ~/.local/share/java/lombok.jar https://projectlombok.org/downloads/lombok.jar
-```
-
-La config de `java.lua` añade `-javaagent:<lombok.jar>` a los `--jvm-arg` de jdtls automáticamente si el jar existe.
+Mason instala `lombok.jar` junto con jdtls. La config de `java.lua` añade `-javaagent:<lombok.jar>` al comando de jdtls automáticamente si el jar existe.
 
 ### Spring Boot Language Server
 
@@ -90,7 +85,7 @@ Instalar una vez desde Mason:
 :MasonInstall vscode-spring-boot-tools
 ```
 
-Al abrir Java, `application.yml` o `application.properties`, se activa el soporte de Spring Boot: completado y navegacion de propiedades, beans, endpoints y code actions. Requiere Java 21+.
+Al abrir Java, `application.yml` o `application.properties`, se activa el soporte de Spring Boot: completado y navegacion de propiedades, beans, endpoints y code actions. `java.lua` habilita jdtls para esos tres filetypes para que el servidor Spring pueda cargar el classpath. Requiere Java 21+.
 
 `<leader>sr` ejecuta `./mvnw spring-boot:run` o `./gradlew bootRun` segun el proyecto; `<leader>sx` lo detiene. Tambien estan disponibles `:SpringBootRun` y `:SpringBootStop`.
 
@@ -102,20 +97,28 @@ Primera vez (descarga el jar con verificación SHA-256 a `~/.local/share/nvim/ne
 :NeotestJava setup
 ```
 
-Requisitos: jdtls activo en el proyecto (lo carga `java.lua` al abrir un `.java`). Soporta Maven/Gradle, JUnit 5 y Spring.
+Requisitos: jdtls activo en el proyecto (lo habilita `java.lua` al abrir Java, YAML o properties). Soporta Maven/Gradle, JUnit 5 y Spring.
 
 ### lazygit
 
+El ejecutable se instala como paquete del sistema en Arch Linux:
+
 ```sh
-# ultima version de https://github.com/jesseduffield/lazygit/releases
-curl -sL -o /tmp/lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v0.64.1/lazygit_0.64.1_Linux_x86_64.tar.gz"
-tar -xzf /tmp/lazygit.tar.gz -C /tmp
-mv /tmp/lazygit ~/.local/bin/lazygit
+sudo pacman -S lazygit
 ```
+
+La integracion de Neovim esta en `lua/plugins/lazygit.lua` y `lua/plugins/toggleterm.lua`:
+
+- `<leader>gg`: Lazygit en ventana flotante.
+- `<leader>gl`: cambios del proyecto.
+- `<leader>gf`: cambios del archivo actual.
+- `<leader>tl`: Lazygit en un terminal flotante persistente.
+
+Si existe una copia en `~/.local/bin/lazygit`, esa ruta tiene prioridad sobre `/usr/bin/lazygit` en el `PATH`. Renombrala o retirala despues de instalar el paquete si quieres usar exclusivamente la version de pacman.
 
 ## Notas
 
 - `format_on_save = false` por decision; formatear con `<leader>cf`.
 - Treesitter: los parsers se instalan bajo demanda (`lua/plugins/treesitter.lua`); requiere `tree-sitter-cli` (instalado via Mason) para compilar los que falten.
-- jdtls: el formateo del LSP esta desactivado a favor de google-java-format.
+- Conform usa `google-java-format` con `<leader>cf`; jdtls conserva sus reglas de formato para las funciones del servidor.
 - biome solo se activa con `biome.json` (o lockfile/.git) en el proyecto.
