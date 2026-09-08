@@ -1,4 +1,12 @@
-local java = "/usr/bin/java"
+local java = vim.fn.exepath("java")
+if java == "" and vim.env.JAVA_HOME then
+  java = vim.env.JAVA_HOME .. "/bin/java"
+end
+if vim.fn.executable(java) ~= 1 then
+  vim.notify("No se encontro el ejecutable java en PATH o JAVA_HOME", vim.log.levels.ERROR)
+  return {}
+end
+
 local java_home = vim.fn.fnamemodify(vim.fn.resolve(java), ":h:h")
 local jdtls_root = vim.fn.stdpath("data") .. "/mason/packages/jdtls"
 local path_to_jar = vim.fn.glob(jdtls_root .. "/plugins/org.eclipse.equinox.launcher_[0-9]*.jar")
@@ -17,9 +25,7 @@ local java_format_settings = vim.fn.filereadable(java_style) == 1 and {
 } or {}
 local filetypes = { "java", "yaml", "jproperties" }
 
-if vim.fn.executable(java) == 1 then
-  vim.env.JAVA_HOME = java_home
-end
+vim.env.JAVA_HOME = java_home
 
 local function project_root()
   return vim.fs.root(0, {
