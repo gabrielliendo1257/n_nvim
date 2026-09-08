@@ -4,6 +4,8 @@ local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+require("config.options")
+
 if not vim.uv.fs_stat(lazypath) then
   vim.fn.system {
     "git",
@@ -22,7 +24,6 @@ require("lazy").setup({
   { import = "plugins.languages" },
 }, require "config.lazy")
 
-require("config.options")
 require("config.keymaps")
 require("config.autocmds")
 require("config.diagnostics")
